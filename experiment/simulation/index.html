@@ -1,13 +1,201 @@
 <!DOCTYPE html>
-<html>
-<head>
-	<!-- Add CSS at the head of HTML file -->
-    <link rel="stylesheet" href="./css/main.css">
-</head>
-<body>
-		<!-- Your code goes here-->
+<html lang="en">
 
-	<!-- Add JS at the bottom of HTML file --> 
-        <script src="./js/main.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ML Decoding of RM(1, 2)</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/virtual-labs/virtual-style@0.0.8-b/css/style.min.css">
+    <link rel="stylesheet" href="./css/fht.css">
+
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['\\(', '\\)'], ['$', '$']], // Allow \( ... \) and $ ... $
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+
+    <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+
+<body>
+
+    <div class="container" style="margin-top:1%;"></div>
+
+    <div class="columns is-centered">
+        <div class="column is-one-quarter v-instruction-title">
+            Hadamard Decoding
+        </div>
+        <div class="column">
+            <div class="v-tabs">
+                <ul>
+                    <li class="is-active" id="Task1">
+                        <a>
+                            ML Decoding of RM(1, 2)
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="columns is-centered">
+        <div class="column is-11-desktop is-12-tablet is-12-mobile">
+            <div class="v-collapsible-instruction-container v-instruction-container">
+                <div class="v-collapsible is-size-5">Instructions</div>
+                <div class="v-content" style="text-align: left; padding-left: 10%; padding-right: 10%;">
+                    <br>
+                    <ul style="list-style: disc;">
+                        <li>
+                            <strong>Goal:</strong> To decode a received vector sent using the \(RM(1, 2)\) code.
+                        </li>
+                        <li>
+                            <strong>Step 1:</strong> Observe the received real vector \(\mathbf{y}\).
+                        </li>
+                        <li>
+                            <strong>Step 2:</strong> Compute the Fast Hadamard Transform (FHT) of \(\mathbf{y}\) to get
+                            \(\mathbf{z}\). Fill in these 4 real values in the "Part 1" boxes.
+                            <strong>Round to one decimal place.</strong>
+                        </li>
+                        <li>
+                            <strong>Step 3:</strong> Submit Part 1. If correct, Part 2 will appear.
+                        </li>
+                        <li>
+                            <strong>Step 4:</strong> Find the index \(k \in \{0, 1, 2, 3\}\) for which the absolute value \(|z_k|\) is the largest.
+                        </li>
+                        <li>
+                            <strong>Step 5:</strong> Use this index \(k\) and the sign of \(z_k\) to find the ML message bits \((\hat{m}_0, \hat{m}_1, \hat{m}_2)\).
+                            <ul style="list-style: circle; margin-left: 20px;">
+                                <li>
+                                    The sign determines \(\hat{m}_0\):
+                                    \(z_k > 0 \implies \hat{m}_0 = 0\).
+                                    \(z_k \le 0 \implies \hat{m}_0 = 1\).
+                                </li>
+                                <li>
+                                    The index \(k\) determines \((\hat{m}_1, \hat{m}_2)\):
+                                    <ul>
+                                        <li>\(k=0 \implies (\hat{m}_1, \hat{m}_2) = (0, 0)\)</li>
+                                        <li>\(k=1 \implies (\hat{m}_1, \hat{m}_2) = (1, 0)\)</li>
+                                        <li>\(k=2 \implies (\hat{m}_1, \hat{m}_2) = (0, 1)\)</li>
+                                        <li>\(k=3 \implies (\hat{m}_1, \hat{m}_2) = (1, 1)\)</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Step 6:</strong> Reconstruct the ML codeword \(\mathbf{\hat{c}} = \hat{m}_0 \mathbf{v}_0 \oplus \hat{m}_1 \mathbf{v}_1 \oplus \hat{m}_2 \mathbf{v}_2\). Enter this 4-bit <strong>binary</strong> codeword into the "Part 2" boxes.
+                        </li>
+                        <li>
+                            <strong>Step 7:</strong> Click "Check Part 2" to get final feedback.
+                        </li>
+                    </ul>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+
+    <div class="columns is-centered">
+        <div class="column is-11-desktop is-12-tablet is-12-mobile">
+            <div class="v-datalist-container components-list" id="questionStatement">
+                <p id="problem-text-container">
+                    An \(RM(1, 2)\) codeword was sent...
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="columns is-centered is-flex-direction-row is-flex-wrap-wrap is-align-content-start">
+        <div class="column is-8-desktop is-12-tablet is-12-mobile">
+            <div class="box-question">
+                
+                <section class="task" id="part1Question">
+                    <h3>Part 1: Compute the Hadamard Transform</h3>
+                    <p>
+                        Compute \(\mathbf{z} = \text{FHT}(\mathbf{y})\). (Round to one decimal place).
+                    </p>
+                    <div class="input-row" id="transform-inputs">
+                        <div class="input-item">
+                            <label for="z0">\(z_0\)</label>
+                            <input type="number" step="0.1" id="z0">
+                        </div>
+                        <div class="input-item">
+                            <label for="z1">\(z_1\)</label>
+                            <input type="number" step="0.1" id="z1">
+                        </div>
+                         <div class="input-item">
+                            <label for="z2">\(z_2\)</label>
+                            <input type="number" step="0.1" id="z2">
+                        </div>
+                         <div class="input-item">
+                            <label for="z3">\(z_3\)</label>
+                            <input type="number" step="0.1" id="z3">
+                        </div>
+                    </div>
+                </section>
+                
+                <hr id="part2-divider" style="display:none;">
+
+                <section class="task" id="part2Question" style="display:none;">
+                    <h3>Part 2: Find the ML Codeword</h3>
+                    <p>
+                        Based on \(\mathbf{z}\), find the ML estimate of the original <strong>binary codeword
+                            \(\mathbf{\hat{c}}\)</strong>.
+                    </p>
+                    <div class="input-row" id="codeword-inputs">
+                        <div class="input-item">
+                             <label for="c0">\(\hat{c}_0\)</label>
+                            <input type="number" min="0" max="1" id="c0" class="v-button-bit">
+                        </div>
+                         <div class="input-item">
+                             <label for="c1">\(\hat{c}_1\)</label>
+                            <input type="number" min="0" max="1" id="c1" class="v-button-bit">
+                        </div>
+                         <div class="input-item">
+                             <label for="c2">\(\hat{c}_2\)</label>
+                            <input type="number" min="0" max="1" id="c2" class="v-button-bit">
+                        </div>
+                         <div class="input-item">
+                             <label for="c3">\(\hat{c}_3\)</label>
+                            <input type="number" min="0" max="1" id="c3" class="v-button-bit">
+                        </div>
+                    </div>
+                </section>
+
+                <div class="controls">
+                    <button id="submitPart1Button" class="v-button">Submit Part 1</button>
+                    <button id="submitPart2Button" class="v-button" style="display:none; margin-top: 1rem;">Check Part 2</button>
+                    <button id="reloadButton" class="v-button" style="margin-top: 1rem;">Reload</button>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="column is-3-desktop is-4-tablet is-12-mobile">
+            <div class="v-datalist-container components-list">
+                <div class="v-datalist-title">Observations</div>
+                <div id="observation">
+                    <p>Your feedback will appear here.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/gh/virtual-labs/virtual-style@0.0.8-b/js/script.js"></script>
+    <script src="./js/fht.js"></script>
+    <script>
+        document.getElementById('reloadButton').addEventListener('click', () => {
+            location.reload();
+        });
+    </script>
 </body>
 </html>
