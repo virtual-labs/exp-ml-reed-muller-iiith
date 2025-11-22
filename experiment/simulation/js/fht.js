@@ -103,6 +103,8 @@ function fht(y) {
     const z2 = a0 - a2;
     const z3 = a1 - a3;
 
+    console.log(z0,z1,z2,z3);
+
     return [z0, z1, z2, z3];
 }
 
@@ -259,7 +261,7 @@ function checkPart1() {
         feedbackEl.innerHTML = `
             <div id="obs-part1" class="obs-correct" style="margin-bottom: 10px;">
                 <h4>Part 1 Correct!</h4>
-                <p>Your transform values \\(\\mathbf{z} = (${userTransform.join(', ')}\\) are correct. Please proceed to Part 2.</p>
+                <p>Your transform values \\(\\mathbf{z} = (${userTransform.join(', ')})\\) are correct. Please proceed to Part 2.</p>
             </div>
             <div id="obs-part2"></div>
         `;
@@ -308,7 +310,9 @@ function checkPart2() {
         alert("Codeword bits must be 0 or 1.");
         return;
     }
-    
+
+    console.log(solution.mlCodeword);
+
     // 3. Compare
     let codewordCorrect = (
         userCodeword[0] === solution.mlCodeword[0] &&
@@ -336,7 +340,7 @@ function checkPart2() {
         part2Div.innerHTML = `
             <hr>
             <h4>Part 2 Correct!</h4>
-            <p>Your estimate \\(\\mathbf{\\hat{c}} = (${userCodeword.join(', ')}\\) is the correct ML codeword.</p>
+            <p>Your estimate \\(\\mathbf{\\hat{c}} = (${userCodeword.join(', ')})\\) is the correct ML codeword.</p>
         `;
     } else {
         // Set class to incorrect (Red) - This overwrites the previous "Incorrect" message automatically
@@ -344,7 +348,7 @@ function checkPart2() {
         part2Div.innerHTML = `
             <hr>
             <h4>Part 2 Incorrect.</h4>
-            <p>Your estimate \\(\\mathbf{\\hat{c}} = (${userCodeword.join(', ')}\\) is not the correct ML codeword.</p>
+            <p>Your estimate \\(\\mathbf{\\hat{c}} = (${userCodeword.join(', ')})\\) is not the correct ML codeword.</p>
             <p><strong>Hint:</strong> Re-check the ML decoding steps:
             <ul>
                 <li>Find the index \\(k \\in \\{0, 1, 2, 3\\}\\) with the largest \\(|z_k|\\).</li>
