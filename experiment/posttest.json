@@ -2,38 +2,157 @@
   "version": 2.0,
   "questions": [
     {
-      "question": "This is a Sample Question 1?",
+      "question": "For a first-order Reed-Muller code $RM(1, m)$, what are the code length $n$ and dimension $k$ in terms of $m$?",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "$n = 2^m, \\quad k = 2^m$",
+        "b": "$n = 2^m, \\quad k = m + 1$",
+        "c": "$n = m, \\quad k = m + 1$",
+        "d": "$n = 2^{m+1}, \\quad k = m$"
       },
       "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
+        "a": "Incorrect. This would imply a rate of 1 (no redundancy), which is incorrect for this code.",
+        "b": "Correct. The length is $2^m$ and the basis consists of the constant $1$ plus the $m$ variables, giving dimension $m+1$.",
+        "c": "Incorrect. The length must be a power of 2, specifically $2^m$, not $m$.",
+        "d": "Incorrect. This misidentifies the length and underestimates the dimension."
       },
-      "correctAnswer": "a",
+      "correctAnswer": "b",
       "difficulty": "beginner"
     },
     {
-      "question": "This is a Sample Question 2?",
+      "question": "Which mapping is used to convert binary bits from $\\mathbb{F}_2$ to real values for transmission over the AWGN channel in this module?",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "$0 \\mapsto 0, \\quad 1 \\mapsto 1$",
+        "b": "$0 \\mapsto -1, \\quad 1 \\mapsto +1$",
+        "c": "$0 \\mapsto +1, \\quad 1 \\mapsto -1$",
+        "d": "$0 \\mapsto 1, \\quad 1 \\mapsto 0$"
       },
       "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
+        "a": "Incorrect. This is a simple identity mapping, not the bipolar mapping used for AWGN transmission.",
+        "b": "Incorrect. This is the reverse of the standard mapping described in the text.",
+        "c": "Correct. This is the standard bipolar mapping used to convert binary codewords into vectors for the Gaussian channel.",
+        "d": "Incorrect. This is a logical inversion but does not map to the real domain $\\mathbb{R}$ required for the channel model."
       },
       "correctAnswer": "c",
       "difficulty": "beginner"
+    },
+    {
+      "question": "In the recursive construction of the Sylvester-type Hadamard matrix $H_{2^m}$, which sub-block is negated?",
+      "answers": {
+        "a": "The top-left block",
+        "b": "The top-right block",
+        "c": "The bottom-left block",
+        "d": "The bottom-right block"
+      },
+      "explanations": {
+        "a": "Incorrect. The top-left block is a direct copy of $H_{2^{m-1}}$, not negated.",
+        "b": "Incorrect. The top-right block is a copy of $H_{2^{m-1}}$, not negated.",
+        "c": "Incorrect. The bottom-left block is a copy of $H_{2^{m-1}}$, not negated.",
+        "d": "Correct. The recursion defines the matrix as $\\begin{pmatrix} H & H \\\\ H & -H \\end{pmatrix}$, where the bottom-right is negated."
+      },
+      "correctAnswer": "d",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "What is the computational complexity of the Fast Hadamard Transform (FHT) for a vector of length $n=2^m$?",
+      "answers": {
+        "a": "$O(n^2)$ or $O((2^m)^2)$",
+        "b": "$O(m 2^m)$ or $O(n \\log n)$",
+        "c": "$O(n)$ or $O(2^m)$",
+        "d": "$O(m^2)$"
+      },
+      "explanations": {
+        "a": "Incorrect. This is the complexity of a direct matrix-vector multiplication, which the FHT improves upon.",
+        "b": "Correct. The FHT exploits the recursive structure to reduce operations to $O(m 2^m)$.",
+        "c": "Incorrect. This linear complexity is too low for a transform that involves interactions across the entire vector.",
+        "d": "Incorrect. This depends only on the number of variables $m$, ignoring the exponential growth of the vector length."
+      },
+      "correctAnswer": "b",
+      "difficulty": "advanced"
+    },
+    {
+      "question": "In the decoding algorithm, what does the index $j$ of the maximum absolute component of the Hadamard transform $\\mathbf{Z}$ determine?",
+      "answers": {
+        "a": "The constant term $a_0$ of the message polynomial.",
+        "b": "The linear coefficients $a_1, \\dots, a_m$ of the message polynomial.",
+        "c": "The noise vector $\\mathbf{N}$.",
+        "d": "The magnitude of the error."
+      },
+      "explanations": {
+        "a": "Incorrect. The constant term is determined by the sign of the component, not its index.",
+        "b": "Correct. The binary representation of the winning index $j$ directly provides the coefficients for the linear terms.",
+        "c": "Incorrect. The index helps identify the codeword, not the specific noise values.",
+        "d": "Incorrect. The magnitude of the component $|Z_j|$ relates to confidence, but the index itself identifies the message bits."
+      },
+      "correctAnswer": "b",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "If the component of the Hadamard transform with the largest magnitude, $Z_j$, is **negative**, what is the value of the constant term $\\hat{a}_0$?",
+      "answers": {
+        "a": "$\\hat{a}_0 = 0$",
+        "b": "$\\hat{a}_0 = 1$",
+        "c": "It cannot be determined.",
+        "d": "$\\hat{a}_0 = -1$"
+      },
+      "explanations": {
+        "a": "Incorrect. A value of 0 maps to $+1$, which would result in a positive correlation, not negative.",
+        "b": "Correct. Since $1$ maps to $-1$, a negative correlation indicates the transmitted constant term was likely $1$.",
+        "c": "Incorrect. The sign of the correlation explicitly determines the constant term in this decoding scheme.",
+        "d": "Incorrect. The binary message bit must be $0$ or $1$, not $-1$."
+      },
+      "correctAnswer": "b",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "What does the Maximum Likelihood (ML) decoding rule simplify to for the AWGN channel?",
+      "answers": {
+        "a": "Minimizing the Hamming distance.",
+        "b": "Maximizing the inner product (correlation) with the received vector.",
+        "c": "Solving a system of linear equations.",
+        "d": "Finding the codeword with the minimum weight."
+      },
+      "explanations": {
+        "a": "Incorrect. Hamming distance is appropriate for Binary Symmetric Channels, not the real-valued AWGN channel.",
+        "b": "Correct. Finding the codeword that correlates most strongly with the received vector maximizes the likelihood.",
+        "c": "Incorrect. This describes algebraic decoding methods, not the correlation-based ML approach described here.",
+        "d": "Incorrect. Minimum weight decoding is relevant for error detection or specific schemes, but ML seeks the closest vector in Euclidean space."
+      },
+      "correctAnswer": "b",
+      "difficulty": "beginner"
+    },
+    {
+      "question": "In the $RM(1,4)$ example provided, the winning index was $j=11$ (binary $1011$). What was the corresponding linear polynomial?",
+      "answers": {
+        "a": "$X_1 + X_3 + X_4$",
+        "b": "$X_1 + X_2 + X_4$",
+        "c": "$X_2 + X_3 + X_4$",
+        "d": "$X_1 + X_2 + X_3$"
+      },
+      "explanations": {
+        "a": "Correct. The binary $1011$ sets coefficients for $X_1, X_3,$ and $X_4$ to 1.",
+        "b": "Incorrect. This would correspond to binary $1101$ (index 13).",
+        "c": "Incorrect. This would correspond to binary $0111$ (index 7).",
+        "d": "Incorrect. This would correspond to binary $1110$ (index 14)."
+      },
+      "correctAnswer": "a",
+      "difficulty": "advanced"
+    },
+    {
+      "question": "Why is the Hadamard Transform $\\mathbf{Z} = \\mathbf{Y} H_{2^m}$ used in this decoding process?",
+      "answers": {
+        "a": "It converts the noise into a binary error pattern.",
+        "b": "It computes the correlations between the received vector and all possible linear basis codewords simultaneously.",
+        "c": "It reduces the dimension of the code from $n$ to $k$.",
+        "d": "It performs majority logic voting for each bit."
+      },
+      "explanations": {
+        "a": "Incorrect. The transform operates on real values and concentrates signal energy; it does not directly output a binary error pattern.",
+        "b": "Correct. The rows of the Hadamard matrix represent the codewords (linear parts), so the product computes all necessary inner products at once.",
+        "c": "Incorrect. The transform produces a vector of the same length $n=2^m$; it does not reduce dimensionality.",
+        "d": "Incorrect. Majority logic is a different decoding technique. FHT is a soft-decision ML technique."
+      },
+      "correctAnswer": "b",
+      "difficulty": "intermediate"
     }
   ]
 }
