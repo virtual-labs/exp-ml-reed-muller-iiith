@@ -44,10 +44,8 @@ function onMathJaxReady() {
 function waitForMathJax() {
     // Check for the main object and the function we actually need
     if (window.MathJax && window.MathJax.typesetPromise) {
-        // It's ready! Call the setup function.
         onMathJaxReady();
     } else {
-        // It's not ready, poll again.
         console.log("Polling for MathJax...");
         setTimeout(waitForMathJax, 100);
     }
@@ -60,11 +58,14 @@ waitForMathJax();
 // --- 3. Helper Functions ---
 
 /**
- * Helper function to typeset MathJax content
+ * Helper function to typeset MathJax content.
+ * Accepts an array of DOM elements to update specifically.
  */
-function typesetMath() {
+function typesetMath(elements) {
     if (window.MathJax && window.MathJax.typesetPromise) {
-        window.MathJax.typesetPromise().catch((err) => {
+        // If elements are provided, pass them to typesetPromise
+        // If elements is null/undefined, it usually processes the whole page
+        window.MathJax.typesetPromise(elements).catch((err) => {
              console.log('MathJax typesetPromise failed:', err);
         });
     } else {
@@ -83,7 +84,7 @@ function gaussianRandom(mean, stdDev) {
         s = u * u + v * v;
     } while (s >= 1 || s === 0);
     let mul = Math.sqrt(-2.0 * Math.log(s) / s);
-    return mean + stdDev * (v * mul); // Return one of the two samples
+    return mean + stdDev * (v * mul);
 }
 
 /**
@@ -115,21 +116,21 @@ function roundToOneDecimal(num) {
 // --- 4. Main Problem Setup ---
 
 function resetUI() {
-    // Hide Part 2
+    // Hide Part 2 inputs
     document.getElementById('part2Question').style.display = 'none';
     document.getElementById('part2-divider').style.display = 'none';
     document.getElementById('submitPart2Button').style.display = 'none';
 
-    // Show Part 1
+    // Show Part 1 inputs
     document.getElementById('submitPart1Button').style.display = 'inline-block';
 
     // Clear inputs
     document.querySelectorAll('input[type="number"]').forEach(input => input.value = '');
     
-    // Clear feedback
+    // Clear feedback and reset structure
     const feedbackEl = document.getElementById('observation');
     feedbackEl.innerHTML = '<p>Your feedback will appear here.</p>';
-    feedbackEl.className = ''; // Reset class
+    feedbackEl.className = ''; 
 }
 
 function setupProblem() {
@@ -149,7 +150,7 @@ function setupProblem() {
     // 4. Compute the correct FHT
     const correctTransformZ = fht(receivedVectorY);
 
-    // --- 5. NEW: True ML Decoding Logic ---
+    // --- 5. True ML Decoding Logic ---
     
     // 5a. Find index k with max absolute value
     let maxZ = -1;
@@ -164,7 +165,7 @@ function setupProblem() {
     // 5b. Determine ML message from k_ml
     const z_k = correctTransformZ[k_ml];
     
-    // m_hat_0 is from the sign of z_k (z_k <= 0 maps to m_hat_0 = 1)
+    // m_hat_0 is from the sign of z_k (z_k > 0 maps to m_hat_0 = 0)
     const m_hat_0 = (z_k > 0) ? 0 : 1; 
 
     // m_hat_1 and m_hat_2 are from the index k_ml
@@ -205,6 +206,7 @@ function setupProblem() {
     const problemTextEl = document.getElementById('problem-text-container');
     const vectorString = receivedVectorY.map(n => n.toFixed(3)).join(', ');
     
+    // NOTE: We use double backslashes (\\) so MathJax sees a single backslash
     problemTextEl.innerHTML = `
         An \\(RM(1, 2)\\) codeword was sent using bipolar signaling (\\(0 \\to +1, 1 \\to -1\\)) over a noisy channel.
         <br>
@@ -214,8 +216,8 @@ function setupProblem() {
         </div>
     `;
     
-    // 9. Render the new MathJax
-    typesetMath();
+    // 9. Render the new MathJax specifically for this element
+    typesetMath([problemTextEl]);
 }
 
 // --- 5. Check Answer Logic ---
@@ -238,7 +240,6 @@ function checkPart1() {
     // 3. Compare answers
     let transformCorrect = true;
     for (let i = 0; i < 4; i++) {
-        // Use a small tolerance for floating point comparison
         if (Math.abs(userTransform[i] - solution.roundedTransformZ[i]) > 0.01) {
             transformCorrect = false;
             break;
@@ -247,34 +248,46 @@ function checkPart1() {
     
     // 4. Generate feedback
     const feedbackEl = document.getElementById('observation');
+    
     if (transformCorrect) {
-        feedbackEl.className = 'obs-correct';
+        // Remove the main class from parent, we will apply classes to children
+        feedbackEl.className = ''; 
+
+        // Create structure: 
+        // [Part 1 Div (Green)] 
+        // [Part 2 Div (Empty - waiting for input)]
         feedbackEl.innerHTML = `
-            <h4>Part 1 Correct!</h4>
-            <p>Your transform values \(\\mathbf{z} = (${userTransform.join(', ')})\) are correct. Please proceed to Part 2.</p>
+            <div id="obs-part1" class="obs-correct" style="margin-bottom: 10px;">
+                <h4>Part 1 Correct!</h4>
+                <p>Your transform values \\(\\mathbf{z} = (${userTransform.join(', ')}\\) are correct. Please proceed to Part 2.</p>
+            </div>
+            <div id="obs-part2"></div>
         `;
         
-        // Show Part 2
+        // Show Part 2 Interface
         document.getElementById('part2Question').style.display = 'block';
         document.getElementById('part2-divider').style.display = 'block';
         document.getElementById('submitPart2Button').style.display = 'inline-block';
         document.getElementById('submitPart1Button').style.display = 'none';
 
+        // Render MathJax for the new content
+        typesetMath([document.getElementById('obs-part1')]);
+
     } else {
+        // If Part 1 is wrong, we just overwrite the whole box
         feedbackEl.className = 'obs-incorrect';
         feedbackEl.innerHTML = `
             <h4>Part 1 Incorrect.</h4>
             <p>Your transform values are not correct. Please check your FHT calculation and rounding.</p>
             <p><strong>Hint:</strong> Remember the FHT butterfly stages:
             <ul>
-                <li>Stage 1: \(a_0 = y_0+y_1\), \(a_1 = y_0-y_1\), \(a_2 = y_2+y_3\), \(a_3 = y_2-y_3\)</li>
-                <li>Stage 2: \(z_0 = a_0+a_2\), \(z_1 = a_1+a_3\), \(z_2 = a_0-a_2\), \(z_3 = a_1-a_3\)</li>
+                <li>Stage 1: \\(a_0 = y_0+y_1\\), \\(a_1 = y_0-y_1\\), \\(a_2 = y_2+y_3\\), \\(a_3 = y_2-y_3\\)</li>
+                <li>Stage 2: \\(z_0 = a_0+a_2\\), \\(z_1 = a_1+a_3\\), \\(z_2 = a_0-a_2\\), \\(z_3 = a_1-a_3\\)</li>
             </ul>
             </p>
         `;
+        typesetMath([feedbackEl]);
     }
-    
-    typesetMath();
 }
 
 function checkPart2() {
@@ -286,13 +299,17 @@ function checkPart2() {
         parseInt(document.getElementById('c3').value)
     ];
     
-    // 2. Check for empty inputs
+    // 2. Validation
     if (userCodeword.some(isNaN)) {
         alert("Please fill in all 4 boxes for Part 2.");
         return;
     }
+    if (userCodeword.some(bit => bit !== 0 && bit !== 1)) {
+        alert("Codeword bits must be 0 or 1.");
+        return;
+    }
     
-    // 3. Compare user's codeword to the *true* ML codeword
+    // 3. Compare
     let codewordCorrect = (
         userCodeword[0] === solution.mlCodeword[0] &&
         userCodeword[1] === solution.mlCodeword[1] &&
@@ -300,48 +317,45 @@ function checkPart2() {
         userCodeword[3] === solution.mlCodeword[3]
     );
 
-    // 4. Generate feedback
-    const feedbackEl = document.getElementById('observation');
-    // We must get the innerHTML *before* overwriting it
-    const part1Feedback = document.getElementById('observation').innerHTML; 
+    // 4. Update ONLY the Part 2 container
+    // We created this empty div in checkPart1
+    const part2Div = document.getElementById('obs-part2');
     
+    // Safety check: if page refreshed or weird state, fallback to main container
+    if (!part2Div) {
+        alert("Please submit Part 1 first.");
+        return;
+    }
+
     const basisVectorName = `\\(\\mathbf{h}_{${solution.k_ml}}\\)`;
     const basisVectorSign = (solution.m_hat_0 === 0) ? '+' : '-';
 
     if (codewordCorrect) {
-        feedbackEl.className = 'obs-correct';
-        feedbackEl.innerHTML = `
-            ${part1Feedback}
+        // Set class to correct (Green)
+        part2Div.className = 'obs-correct';
+        part2Div.innerHTML = `
             <hr>
             <h4>Part 2 Correct!</h4>
-            <p>Your estimate \(\\mathbf{\\hat{c}} = (${userCodeword.join(', ')})\) is the correct ML codeword.</p>
-            <p><strong>Reasoning:</strong>
-            <ul>
-                <li>The transform was \(\\mathbf{z} = (${solution.roundedTransformZ.join(', ')})\).</li>
-                <li>The largest absolute value was \(|z_{${solution.k_ml}}| = ${Math.abs(solution.roundedTransformZ[solution.k_ml])}\) (from index \(k=${solution.k_ml}\)).</li>
-                <li>This selects the basis vector \(${basisVectorSign}${basisVectorName}\).</li>
-                <li>This maps to the ML message \((\\hat{m}_0, \\hat{m}_1, \\hat{m}_2) = (${solution.mlMessage.join(', ')})\).</li>
-                <li>Reconstructing gives \(\\mathbf{\\hat{c}} = (${solution.mlCodeword.join(', ')})\).</li>
-            </ul>
-            </p>
+            <p>Your estimate \\(\\mathbf{\\hat{c}} = (${userCodeword.join(', ')}\\) is the correct ML codeword.</p>
         `;
     } else {
-        feedbackEl.className = 'obs-partial'; // Partial, since Part 1 was correct
-        feedbackEl.innerHTML = `
-            ${part1Feedback}
+        // Set class to incorrect (Red) - This overwrites the previous "Incorrect" message automatically
+        part2Div.className = 'obs-incorrect';
+        part2Div.innerHTML = `
             <hr>
             <h4>Part 2 Incorrect.</h4>
-            <p>Your estimate \(\\mathbf{\\hat{c}} = (${userCodeword.join(', ')})\) is not the correct ML codeword.</p>
+            <p>Your estimate \\(\\mathbf{\\hat{c}} = (${userCodeword.join(', ')}\\) is not the correct ML codeword.</p>
             <p><strong>Hint:</strong> Re-check the ML decoding steps:
             <ul>
-                <li>Find the index \(k \in \\{0, 1, 2, 3\\}\) with the largest \(|z_k|\).</li>
-                <li>Use this \(k\) to find \((\hat{m}_1, \hat{m}_2)\). (e.g., \(k=1 \implies (1,0)\))</li>
-                <li>Use the sign of \(z_k\) to find \(\hat{m}_0\). (\(z_k \le 0 \implies \hat{m}_0=1\))</li>
-                <li>Reconstruct \(\\mathbf{\\hat{c}} = \\hat{m}_0 \\mathbf{v}_0 \oplus \\hat{m}_1 \\mathbf{v}_1 \oplus \\hat{m}_2 \\mathbf{v}_2\).</li>
+                <li>Find the index \\(k \\in \\{0, 1, 2, 3\\}\\) with the largest \\(|z_k|\\).</li>
+                <li>Use this \\(k\\) to find \\((\\hat{m}_1, \\hat{m}_2)\\). (e.g., \\(k=1 \\implies (1,0)\\))</li>
+                <li>Use the sign of \\(z_k\\) to find \\(\\hat{m}_0\\). (\\(z_k \\le 0 \\implies \\hat{m}_0=1\\))</li>
+                <li>Reconstruct \\(\\mathbf{\\hat{c}} = \\hat{m}_0 \\mathbf{v}_0 \\oplus \\hat{m}_1 \\mathbf{v}_1 \\oplus \\hat{m}_2 \\mathbf{v}_2\\).</li>
             </ul>
             </p>
         `;
     }
     
-    typesetMath();
+    // Render the MathJax ONLY in the Part 2 box
+    typesetMath([part2Div]);
 }
