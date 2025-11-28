@@ -174,7 +174,7 @@
                 <div class="controls">
                     <button id="submitPart1Button" class="v-button">Submit Part 1</button>
                     <button id="submitPart2Button" class="v-button" style="display:none; margin-top: 1rem;">Check Part 2</button>
-                    <button id="reloadButton" class="v-button" style="margin-top: 1rem;">Reload</button>
+                    <button id="reloadButton" class="v-button" style="margin-top: 1rem;">New Question</button>
                 </div>
 
             </div>
@@ -194,7 +194,7 @@
     <script src="./js/fht.js"></script>
     <script>
         document.getElementById('reloadButton').addEventListener('click', () => {
-            location.reload();
+            setupProblem();
         });
     </script>
 </body>
