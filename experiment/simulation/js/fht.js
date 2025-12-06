@@ -117,6 +117,9 @@ function roundToOneDecimal(num) {
 
 // --- 4. Main Problem Setup ---
 
+// --- 6. Track Previously Generated Questions ---
+let previousQuestions = [];
+
 function resetUI() {
     // Hide Part 2 inputs
     document.getElementById('part2Question').style.display = 'none';
@@ -137,11 +140,31 @@ function resetUI() {
 
 function setupProblem() {
     resetUI();
-    
-    // 1. Pick a random codeword and message
-    const randomIndex = Math.floor(Math.random() * 8);
-    const binaryCodeword = CODEWORDS_RM12[randomIndex];
-    
+
+    let binaryCodeword, randomIndex;
+    const maxRetries = 20; // Maximum attempts to find a unique question
+    let attempts = 0;
+
+    do {
+        // 1. Pick a random codeword and message
+        randomIndex = Math.floor(Math.random() * 8);
+        binaryCodeword = CODEWORDS_RM12[randomIndex];
+        attempts++;
+    } while (previousQuestions.includes(randomIndex) && attempts < maxRetries);
+
+    if (attempts >= maxRetries) {
+        console.warn("Failed to generate a unique question after multiple attempts. Resetting history.");
+        previousQuestions = []; // Clear history to allow repeats
+    }
+
+    // Add the new question to the history
+    previousQuestions.push(randomIndex);
+
+    // Limit the history size to 10 to avoid memory issues
+    if (previousQuestions.length > 10) {
+        previousQuestions.shift();
+    }
+
     // 2. Convert to bipolar (+1 for 0, -1 for 1)
     const bipolarCodeword = binaryCodeword.map(bit => (bit === 0 ? 1 : -1));
 

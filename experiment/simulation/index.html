@@ -13,7 +13,7 @@
     <script>
         window.MathJax = {
             tex: {
-                inlineMath: [['\\(', '\\)'], ['$', '$']], // Allow \( ... \) and $ ... $
+                inlineMath: [['\\(', '\\)'], ['$', '$']], 
                 displayMath: [['$$', '$$'], ['\\[', '\\]']]
             },
             svg: {
@@ -51,8 +51,45 @@
         <div class="column is-11-desktop is-12-tablet is-12-mobile">
             <div class="v-collapsible-instruction-container v-instruction-container">
                 <div class="v-collapsible is-size-5">Instructions</div>
-                <div class="v-content" style="text-align: left; padding-left: 10%; padding-right: 10%;">
-                    <br>
+                <div class="v-content" style="text-align: left; padding-left: 5%; padding-right: 5%;">
+                    
+                    <h3>Theory Overview</h3>
+                    <p>
+                        <strong>Maximum Likelihood (ML)</strong> decoding minimizes the error probability for Reed-Muller codes on Gaussian channels. For first-order codes, \(RM(1,m)\), this is efficiently achieved using the <strong>Fast Hadamard Transform (FHT)</strong>.
+                    </p>
+
+                    <h4>1. Signal Model</h4>
+                    <p>
+                        Binary bits are mapped to real values: \(0 \to +1\) and \(1 \to -1\). The received vector is \(\mathbf{y} = \mathbf{c}_{bip} + \mathbf{n}\), where \(\mathbf{n}\) is noise.
+                    </p>
+
+                    <h4>2. The Hadamard Matrix</h4>
+                    <p>
+                        The decoding relies on the recursive Sylvester-Hadamard matrix \(H_N\):
+                        $$ H_2 = \begin{pmatrix} 1 & 1 \\ 1 & -1 \end{pmatrix}, \quad H_{2^m} = \begin{pmatrix} H_{2^{m-1}} & H_{2^{m-1}} \\ H_{2^{m-1}} & -H_{2^{m-1}} \end{pmatrix} $$
+                        For \(RM(1,2)\), we use \(H_4\).
+                    </p>
+
+                    <h4>3. The Algorithm</h4>
+                    <p>
+                        To decode a received vector \(\mathbf{y}\) of length \(2^m\):
+                    </p>
+                    <ol>
+                        <li><strong>Transform:</strong> Compute \(\mathbf{z} = \mathbf{y} \times H_{2^m}\).</li>
+                        <li><strong>Find Max:</strong> Identify the index \(k\) where \(|z_k|\) is maximized.</li>
+                        <li><strong>Decode:</strong>
+                            <ul>
+                                <li>The bits of index \(k\) (in binary) determine the linear message bits.</li>
+                                <li>The sign of \(z_k\) determines the constant message bit (\(>0 \to 0\), \(\le 0 \to 1\)).</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    
+
+                    <hr>
+
+                    <h3>Procedure</h3>
+                    
                     <ul style="list-style: disc;">
                         <li>
                             <strong>Goal:</strong> To decode a received vector sent using the \(RM(1, 2)\) code.
@@ -72,29 +109,13 @@
                             <strong>Step 4:</strong> Find the index \(k \in \{0, 1, 2, 3\}\) for which the absolute value \(|z_k|\) is the largest.
                         </li>
                         <li>
-                            <strong>Step 5:</strong> Use this index \(k\) and the sign of \(z_k\) to find the ML message bits \((\hat{m}_0, \hat{m}_1, \hat{m}_2)\).
-                            <ul style="list-style: circle; margin-left: 20px;">
-                                <li>
-                                    The sign determines \(\hat{m}_0\):
-                                    \(z_k > 0 \implies \hat{m}_0 = 0\).
-                                    \(z_k \le 0 \implies \hat{m}_0 = 1\).
-                                </li>
-                                <li>
-                                    The index \(k\) determines \((\hat{m}_1, \hat{m}_2)\):
-                                    <ul>
-                                        <li>\(k=0 \implies (\hat{m}_1, \hat{m}_2) = (0, 0)\)</li>
-                                        <li>\(k=1 \implies (\hat{m}_1, \hat{m}_2) = (1, 0)\)</li>
-                                        <li>\(k=2 \implies (\hat{m}_1, \hat{m}_2) = (0, 1)\)</li>
-                                        <li>\(k=3 \implies (\hat{m}_1, \hat{m}_2) = (1, 1)\)</li>
-                                    </ul>
-                                </li>
-                            </ul>
+                            <strong>Step 5:</strong> Reconstruct the ML codeword \(\mathbf{\hat{c}}\). Enter this 4-bit <strong>binary</strong> codeword into the "Part 2" boxes.
                         </li>
                         <li>
-                            <strong>Step 6:</strong> Reconstruct the ML codeword \(\mathbf{\hat{c}} = \hat{m}_0 \mathbf{v}_0 \oplus \hat{m}_1 \mathbf{v}_1 \oplus \hat{m}_2 \mathbf{v}_2\). Enter this 4-bit <strong>binary</strong> codeword into the "Part 2" boxes.
+                            <strong>Step 6:</strong> Click "Check Part 2" to get final feedback.
                         </li>
                         <li>
-                            <strong>Step 7:</strong> Click "Check Part 2" to get final feedback.
+                            <strong>Note:</strong> You can click "New Question" to try another received vector.
                         </li>
                     </ul>
                     <br>
@@ -174,7 +195,7 @@
                 <div class="controls">
                     <button id="submitPart1Button" class="v-button">Submit Part 1</button>
                     <button id="submitPart2Button" class="v-button" style="display:none; margin-top: 1rem;">Check Part 2</button>
-                    <button id="reloadButton" class="v-button" style="margin-top: 1rem;">Reload</button>
+                    <button id="reloadButton" class="v-button" style="margin-top: 1rem;">New Question</button>
                 </div>
 
             </div>
@@ -194,7 +215,7 @@
     <script src="./js/fht.js"></script>
     <script>
         document.getElementById('reloadButton').addEventListener('click', () => {
-            location.reload();
+            setupProblem();
         });
     </script>
 </body>
