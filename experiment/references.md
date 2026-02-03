@@ -1,2 +1,2 @@
-1. Moon, Todd K. Error correction coding: mathematical methods and algorithms. John Wiley & Sons, 2020. (A nice textbook for coding theory, starting from basics of communication systems till codes used in practice today)
-2. Richardson, T. and Urbanke, R. (2008) Modern Coding Theory. Cambridge: Cambridge University Press. (A great book that focusses on theory and algorithms related to modern codes, especially for LDPC codes)
+1. Moon, Todd K. *Error correction coding: mathematical methods and algorithms*. John Wiley & Sons, 2020. (A nice textbook for coding theory, starting from basics of communication systems till codes used in practice today)
+2. Richardson, T. and Urbanke, R. (2008) *Modern Coding Theory*. Cambridge: Cambridge University Press. (A great book that focusses on theory and algorithms related to modern codes, especially for LDPC codes)

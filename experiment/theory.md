@@ -9,10 +9,10 @@ First, let's establish the model. An $RM(1,m)$ code is a linear code of length $
 To transmit a binary codeword $\mathbf{C} \in RM(1,m)$ over an AWGN channel, we must first map its bits to real values. We use the standard bipolar mapping:
 
 - $0 \in \mathbb{F}_2 \mapsto +1 \in \mathbb{R}$
-- $1 \in \mathbb{F}_2 \mapsto -1 \in \mathbb{R}$
+- $1 \in \mathbb{F}_2 \mapsto -1 \in \mathbb{R}$.
 
 This converts the binary codeword $\mathbf{C}$ into a bipolar vector $\mathbf{C}_{bip}$. The channel then adds a noise vector $\mathbf{N}$, whose components are independent, identically distributed Gaussian random variables. The received vector $\mathbf{Y}$ is:
-$$ \mathbf{Y} = \mathbf{C}_{bip} + \mathbf{N} $$
+$$ \mathbf{Y} = \mathbf{C}_{bip} + \mathbf{N}. \tag{1}$$
 The goal of the decoder is to find the most likely transmitted codeword given the received vector $\mathbf{Y}$. For the AWGN channel, the Maximum Likelihood (ML) decoding rule simplifies to finding the codeword that maximizes the inner product (or correlation) with the received vector:
 $$ \hat{\mathbf{C}}_{bip} = \arg\max*{\mathbf{c} \in \mathcal{C}*{bip}} \langle \mathbf{Y}, \mathbf{c} \rangle $$
 where $\mathcal{C}_{bip}$ is the set of all $2^{m+1}$ bipolar codewords of the $RM(1,m)$ code. A brute-force search is computationally expensive.
@@ -29,20 +29,20 @@ The key to efficient decoding lies in the structure of the Sylvester-type Hadama
 The recursive definition provides a clear method for building larger Hadamard matrices.
 
 - **Constructing $H_2$ (Base Case):**
-  The construction starts with the $2 \times 2$ base matrix:
-  $$ H_2 = \begin{pmatrix} 1 & 1 \\ 1 & -1 \end{pmatrix} $$
+  The construction starts with the $2 \times 2$ base matrix
+  $$ H_2 = \begin{pmatrix} 1 & 1 \\ 1 & -1 \end{pmatrix}. \tag{2}$$
 
 - **Constructing $H_4$:**
-  We construct $H_4$ by arranging four copies of $H_2$ in a block structure, negating the bottom-right block:
-  $$ H_4 = \begin{pmatrix} H_2 & H_2 \\ H_2 & -H_2 \end{pmatrix} = \left( \begin{array}{cc|cc} 1 & 1 & 1 & 1 \\ 1 & -1 & 1 & -1 \\ \hline 1 & 1 & -1 & -1 \\ 1 & -1 & -1 & 1 \end{array} \right) $$
-    This yields the final $4 \times 4$ matrix:
-  $$ H_4 = \begin{pmatrix} 1 & 1 & 1 & 1 \\ 1 & -1 & 1 & -1 \\ 1 & 1 & -1 & -1 \\ 1 & -1 & -1 & 1 \end{pmatrix} $$
+  We construct $H_4$ by arranging four copies of $H_2$ in a block structure, negating the bottom-right block
+  $$ H_4 = \begin{pmatrix} H_2 & H_2 \\ H_2 & -H_2 \end{pmatrix} = \left( \begin{array}{cc|cc} 1 & 1 & 1 & 1 \\ 1 & -1 & 1 & -1 \\ \hline 1 & 1 & -1 & -1 \\ 1 & -1 & -1 & 1 \end{array} \right). \tag{3}$$
+    This yields the final $4 \times 4$ matrix
+  $$ H_4 = \begin{pmatrix} 1 & 1 & 1 & 1 \\ 1 & -1 & 1 & -1 \\ 1 & 1 & -1 & -1 \\ 1 & -1 & -1 & 1 \end{pmatrix}. \tag{4}$$
 
 - **Constructing $H_8$:**
-  Similarly, $H_8$ is constructed from four blocks of the $H_4$ matrix:
-  $$ H_8 = \begin{pmatrix} H_4 & H_4 \\ H_4 & -H_4 \end{pmatrix} $$
-    Substituting the matrix for $H_4$ results in the final $8 \times 8$ matrix:
-  $$ H_8 = \begin{pmatrix} 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\ 1 & -1 & 1 & -1 & 1 & -1 & 1 & -1 \\ 1 & 1 & -1 & -1 & 1 & 1 & -1 & -1 \\ 1 & -1 & -1 & 1 & 1 & -1 & -1 & 1 \\ 1 & 1 & 1 & 1 & -1 & -1 & -1 & -1 \\ 1 & -1 & 1 & -1 & -1 & 1 & -1 & 1 \\ 1 & 1 & -1 & -1 & -1 & -1 & 1 & 1 \\ 1 & -1 & -1 & 1 & -1 & 1 & 1 & -1 \end{pmatrix} $$
+  Similarly, $H_8$ is constructed from four blocks of the $H_4$ matrix
+  $$ H_8 = \begin{pmatrix} H_4 & H_4 \\ H_4 & -H_4 \end{pmatrix}. \tag{5}$$
+    Substituting the matrix for $H_4$ results in the final $8 \times 8$ matrix
+  $$ H_8 = \begin{pmatrix} 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\ 1 & -1 & 1 & -1 & 1 & -1 & 1 & -1 \\ 1 & 1 & -1 & -1 & 1 & 1 & -1 & -1 \\ 1 & -1 & -1 & 1 & 1 & -1 & -1 & 1 \\ 1 & 1 & 1 & 1 & -1 & -1 & -1 & -1 \\ 1 & -1 & 1 & -1 & -1 & 1 & -1 & 1 \\ 1 & 1 & -1 & -1 & -1 & -1 & 1 & 1 \\ 1 & -1 & -1 & 1 & -1 & 1 & 1 & -1 \end{pmatrix}. \tag{6}$$
 
 #### 2.2 The Crucial Connection: Codewords as Hadamard Rows
 
@@ -79,10 +79,10 @@ The Hadamard Transform of a vector $\mathbf{Y}$ is the matrix-vector product $\m
 **Input:** A received vector $\mathbf{Y}$ of length $n=2^m$.
 **Output:** The decoded message polynomial $\hat{f}(\mathbf{X})$.
 
-1.  **Transform:** Compute the Hadamard Transform of the received vector:
-    $$ \mathbf{Z} = \mathbf{Y} H\_{2^m} $$
-2.  **Search:** Find the index $j$ corresponding to the component of $\mathbf{Z}$ with the largest absolute value over all $2^m$ possible indices:
-    $$ j = \arg\max\_{i \in \{0, \dots, 2^m-1\}} |Z_i| $$
+1.  **Transform:** Compute the Hadamard Transform of the received vector
+    $$ \mathbf{Z} = \mathbf{Y} H\_{2^m}. \tag{7}$$
+2.  **Search:** Find the index $j$ corresponding to the component of $\mathbf{Z}$ with the largest absolute value over all $2^m$ possible indices
+    $$ j = \arg\max\_{i \in \{0, \dots, 2^m-1\}} |Z_i| . \tag{8}$$
 3.  **Decode:** Let the binary representation of $j$ be $(b_1 b_2 \dots b_m)$.
     a. The linear part of the polynomial is $\hat{a}_1 X_1 + \dots + \hat{a}_m X_m$, where $\hat{a}_i = b_i$.
     b. The constant term $\hat{a}_0$ is determined by the sign of $Z_j$. If $Z_j < 0$, then $\hat{a}_0 = 1$. If $Z_j > 0$, then $\hat{a}_0 = 0$.

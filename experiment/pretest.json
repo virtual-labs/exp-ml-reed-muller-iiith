@@ -2,7 +2,7 @@
   "version": 2.0,
   "questions": [
     {
-      "question": "Which of the following statements correctly defines the Reed-Muller code $RM(r, m)$ in terms of Boolean polynomials?",
+      "question": "1. Which of the following statements correctly defines the Reed-Muller code $RM(r, m)$ in terms of Boolean polynomials?",
       "answers": {
         "a": "The set of all Boolean polynomials in $m$ variables with degree exactly equal to $r$.",
         "b": "The set of all Boolean polynomials in $m$ variables with degree at most $r$.",
@@ -19,7 +19,7 @@
       "difficulty": "beginner"
     },
     {
-      "question": "Using the $(u | u + v)$ construction (Plotkin construction), how can the Reed-Muller code $RM(r, m)$ be decomposed?",
+      "question": "2. Using the $(u | u + v)$ construction (Plotkin construction), how can the Reed-Muller code $RM(r, m)$ be decomposed?",
       "answers": {
         "a": "$RM(r, m) = \\{(u, u+v) \\mid u \\in RM(r-1, m-1), v \\in RM(r, m-1)\\}$",
         "b": "$RM(r, m) = \\{(u, u+v) \\mid u \\in RM(r, m-1), v \\in RM(r-1, m-1)\\}$",
@@ -36,7 +36,7 @@
       "difficulty": "intermediate"
     },
     {
-      "question": "What is the minimum Hamming distance $d$ of the Reed-Muller code $RM(r, m)$?",
+      "question": "3. What is the minimum Hamming distance $d$ of the Reed-Muller code $RM(r, m)$?",
       "answers": {
         "a": "$2^{m-r}$",
         "b": "$2^{r}$",
@@ -53,7 +53,7 @@
       "difficulty": "beginner"
     },
     {
-      "question": "Which duality relationship holds for Reed-Muller codes?",
+      "question": "4. Which duality relationship holds for Reed-Muller codes?",
       "answers": {
         "a": "$RM(r, m)^\\perp = RM(r, m)$",
         "b": "$RM(r, m)^\\perp = RM(m-r, m)$",
@@ -70,7 +70,7 @@
       "difficulty": "intermediate"
     },
     {
-      "question": "In Majority Logic Decoding for $RM(r, m)$, what is the primary mechanism for determining the coefficient of a highest-degree monomial?",
+      "question": "5. In Majority Logic Decoding for $RM(r, m)$, what is the primary mechanism for determining the coefficient of a highest-degree monomial?",
       "answers": {
         "a": "Solving a system of linear equations using Gaussian elimination.",
         "b": "Taking a vote based on the parity sums of disjoint subsets of the received vector.",

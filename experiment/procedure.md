@@ -14,7 +14,7 @@ The experiment window consists of the following components:
 5. **Action box**: The action box contains the input elements and buttons to perform the task.
 
 <div style = "text-align: center;">
-    <img src="images/layout.png" alt="alt text" width="500"/>
+    <img src="images/layout.png" alt="alt text" width="250"/>
 </div>
 
 ### Experiment:
@@ -26,11 +26,11 @@ There is one task in this experiment.
 1. Given received vector, compute the Hadamard Transform of the vector.
 
 <div style = "text-align: center;">
-    <img src="images/fht.png" alt="alt text" width="500"/>
+    <img src="images/fht.png" alt="alt text" width="250"/>
 </div>
 
 2. Based on the Hadamard Transform, estimate the codeword sent. Enter your answer in binary form and not the bipolar form.
 
 <div style = "text-align: center;">
-    <img src="images/decode.png" alt="alt text" width="500"/>
+    <img src="images/decode.png" alt="alt text" width="250"/>
 </div>

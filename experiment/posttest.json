@@ -2,7 +2,7 @@
   "version": 2.0,
   "questions": [
     {
-      "question": "For a first-order Reed-Muller code $RM(1, m)$, what are the code length $n$ and dimension $k$ in terms of $m$?",
+      "question": "1. For a first-order Reed-Muller code $RM(1, m)$, what are the code length $n$ and dimension $k$ in terms of $m$?",
       "answers": {
         "a": "$n = 2^m, \\quad k = 2^m$",
         "b": "$n = 2^m, \\quad k = m + 1$",
@@ -19,7 +19,7 @@
       "difficulty": "beginner"
     },
     {
-      "question": "Which mapping is used to convert binary bits from $\\mathbb{F}_2$ to real values for transmission over the AWGN channel in this module?",
+      "question": "2. Which mapping is used to convert binary bits from $\\mathbb{F}_2$ to real values for transmission over the AWGN channel in this module?",
       "answers": {
         "a": "$0 \\mapsto 0, \\quad 1 \\mapsto 1$",
         "b": "$0 \\mapsto -1, \\quad 1 \\mapsto +1$",
@@ -36,7 +36,7 @@
       "difficulty": "beginner"
     },
     {
-      "question": "In the recursive construction of the Sylvester-type Hadamard matrix $H_{2^m}$, which sub-block is negated?",
+      "question": "3. In the recursive construction of the Sylvester-type Hadamard matrix $H_{2^m}$, which sub-block is negated?",
       "answers": {
         "a": "The top-left block",
         "b": "The top-right block",
@@ -53,7 +53,7 @@
       "difficulty": "intermediate"
     },
     {
-      "question": "What is the computational complexity of the Fast Hadamard Transform (FHT) for a vector of length $n=2^m$?",
+      "question": "4. What is the computational complexity of the Fast Hadamard Transform (FHT) for a vector of length $n=2^m$?",
       "answers": {
         "a": "$O(n^2)$ or $O((2^m)^2)$",
         "b": "$O(m 2^m)$ or $O(n \\log n)$",
@@ -70,7 +70,7 @@
       "difficulty": "advanced"
     },
     {
-      "question": "In the decoding algorithm, what does the index $j$ of the maximum absolute component of the Hadamard transform $\\mathbf{Z}$ determine?",
+      "question": "5. In the decoding algorithm, what does the index $j$ of the maximum absolute component of the Hadamard transform $\\mathbf{Z}$ determine?",
       "answers": {
         "a": "The constant term $a_0$ of the message polynomial.",
         "b": "The linear coefficients $a_1, \\dots, a_m$ of the message polynomial.",
@@ -87,7 +87,7 @@
       "difficulty": "intermediate"
     },
     {
-      "question": "If the component of the Hadamard transform with the largest magnitude, $Z_j$, is **negative**, what is the value of the constant term $\\hat{a}_0$?",
+      "question": "6. If the component of the Hadamard transform with the largest magnitude, $Z_j$, is **negative**, what is the value of the constant term $\\hat{a}_0$?",
       "answers": {
         "a": "$\\hat{a}_0 = 0$",
         "b": "$\\hat{a}_0 = 1$",
@@ -104,7 +104,7 @@
       "difficulty": "intermediate"
     },
     {
-      "question": "What does the Maximum Likelihood (ML) decoding rule simplify to for the AWGN channel?",
+      "question": "7. What does the Maximum Likelihood (ML) decoding rule simplify to for the AWGN channel?",
       "answers": {
         "a": "Minimizing the Hamming distance.",
         "b": "Maximizing the inner product (correlation) with the received vector.",
@@ -121,7 +121,7 @@
       "difficulty": "beginner"
     },
     {
-      "question": "In the $RM(1,4)$ example provided, the winning index was $j=11$ (binary $1011$). What was the corresponding linear polynomial?",
+      "question": "8. In the $RM(1,4)$ example provided, the winning index was $j=11$ (binary $1011$). What was the corresponding linear polynomial?",
       "answers": {
         "a": "$X_1 + X_3 + X_4$",
         "b": "$X_1 + X_2 + X_4$",
@@ -138,7 +138,7 @@
       "difficulty": "advanced"
     },
     {
-      "question": "Why is the Hadamard Transform $\\mathbf{Z} = \\mathbf{Y} H_{2^m}$ used in this decoding process?",
+      "question": "9. Why is the Hadamard Transform $\\mathbf{Z} = \\mathbf{Y} H_{2^m}$ used in this decoding process?",
       "answers": {
         "a": "It converts the noise into a binary error pattern.",
         "b": "It computes the correlations between the received vector and all possible linear basis codewords simultaneously.",
