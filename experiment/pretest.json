@@ -2,38 +2,89 @@
   "version": 2.0,
   "questions": [
     {
-      "question": "This is a Sample Question 1?",
+      "question": "1. Which of the following statements correctly defines the Reed-Muller code $RM(r, m)$ in terms of Boolean polynomials?",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "The set of all Boolean polynomials in $m$ variables with degree exactly equal to $r$.",
+        "b": "The set of all Boolean polynomials in $m$ variables with degree at most $r$.",
+        "c": "The set of all Boolean polynomials in $r$ variables with degree at most $m$.",
+        "d": "The set of all homogenous Boolean polynomials of degree $r$."
       },
       "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
+        "a": "Incorrect. $RM(r, m)$ includes polynomials of degree strictly less than $r$ as well.",
+        "b": "Correct. $RM(r, m)$ consists of the evaluation vectors of all Boolean polynomials in $m$ variables where the degree is $\\le r$.",
+        "c": "Incorrect. The number of variables corresponds to $m$, not $r$.",
+        "d": "Incorrect. The polynomials do not need to be homogenous; they can include terms of varying degrees up to $r$."
+      },
+      "correctAnswer": "b",
+      "difficulty": "beginner"
+    },
+    {
+      "question": "2. Using the $(u | u + v)$ construction (Plotkin construction), how can the Reed-Muller code $RM(r, m)$ be decomposed?",
+      "answers": {
+        "a": "$RM(r, m) = \\{(u, u+v) \\mid u \\in RM(r-1, m-1), v \\in RM(r, m-1)\\}$",
+        "b": "$RM(r, m) = \\{(u, u+v) \\mid u \\in RM(r, m-1), v \\in RM(r-1, m-1)\\}$",
+        "c": "$RM(r, m) = \\{(u, v) \\mid u \\in RM(r, m-1), v \\in RM(r-1, m-1)\\}$",
+        "d": "$RM(r, m) = \\{(u+v, v) \\mid u \\in RM(r-1, m-1), v \\in RM(r, m-1)\\}$"
+      },
+      "explanations": {
+        "a": "Incorrect. The degrees for $u$ and $v$ are swapped.",
+        "b": "Correct. In the recursive construction, $u$ comes from the code with the same order $r$ but fewer variables, and $v$ comes from the code with order $r-1$.",
+        "c": "Incorrect. This describes a direct sum or concatenation, not the $(u|u+v)$ construction.",
+        "d": "Incorrect. This is not the standard form for the RM recursion."
+      },
+      "correctAnswer": "b",
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "3. What is the minimum Hamming distance $d$ of the Reed-Muller code $RM(r, m)$?",
+      "answers": {
+        "a": "$2^{m-r}$",
+        "b": "$2^{r}$",
+        "c": "$2^{m-1}$",
+        "d": "$2^{m-r-1}$"
+      },
+      "explanations": {
+        "a": "Correct. The minimum distance of an $RM(r, m)$ code is derived from the property that a non-zero Boolean function of degree $r$ cannot vanish on too many points.",
+        "b": "Incorrect. This would increase with the order of the code, whereas distance typically decreases as rate increases.",
+        "c": "Incorrect. This is the distance for First Order RM codes specifically ($r=1$).",
+        "d": "Incorrect. This is the distance for $RM(r+1, m)$."
       },
       "correctAnswer": "a",
       "difficulty": "beginner"
     },
     {
-      "question": "This is a Sample Question 2?",
+      "question": "4. Which duality relationship holds for Reed-Muller codes?",
       "answers": {
-        "a": "answer1",
-        "b": "answer2",
-        "c": "answer3",
-        "d": "answer4"
+        "a": "$RM(r, m)^\\perp = RM(r, m)$",
+        "b": "$RM(r, m)^\\perp = RM(m-r, m)$",
+        "c": "$RM(r, m)^\\perp = RM(m-r-1, m)$",
+        "d": "$RM(r, m)^\\perp = RM(r-1, m)$"
       },
       "explanations": {
-        "a": "Explanation 1  <a href='www.google.com'>here</a>",
-        "b": "Explanation 2",
-        "c": "Explanation 2",
-        "d": "Explanation 2"
+        "a": "Incorrect. RM codes are generally not self-dual (except in specific cases like $RM((m-1)/2, m)$ for odd $m$).",
+        "b": "Incorrect. This is a common misconception. The order is reduced by one more.",
+        "c": "Correct. The dual of $RM(r, m)$ is the Reed-Muller code of order $m - r - 1$.",
+        "d": "Incorrect. This does not satisfy the dimensional constraints of duality."
       },
       "correctAnswer": "c",
-      "difficulty": "beginner"
+      "difficulty": "intermediate"
+    },
+    {
+      "question": "5. In Majority Logic Decoding for $RM(r, m)$, what is the primary mechanism for determining the coefficient of a highest-degree monomial?",
+      "answers": {
+        "a": "Solving a system of linear equations using Gaussian elimination.",
+        "b": "Taking a vote based on the parity sums of disjoint subsets of the received vector.",
+        "c": "Iteratively flipping bits until the syndrome weight is minimized.",
+        "d": "Calculating the Fourier transform of the received vector."
+      },
+      "explanations": {
+        "a": "Incorrect. This describes general algebraic decoding or information set decoding.",
+        "b": "Correct. The decoder computes checksums corresponding to the characteristic vectors of affine subspaces and uses a majority vote to estimate the coefficient.",
+        "c": "Incorrect. This describes bit-flipping algorithms (like for LDPC codes).",
+        "d": "Incorrect. While spectral techniques exist, Majority Logic specifically relies on voting among parity checks."
+      },
+      "correctAnswer": "b",
+      "difficulty": "intermediate"
     }
   ]
 }

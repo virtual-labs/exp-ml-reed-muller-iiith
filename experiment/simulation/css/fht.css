@@ -1,0 +1,128 @@
+/* Custom styles for the FHT lab */
+
+.vector-display {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #d9534f; /* A reddish color */
+    text-align: center;
+    background: #fafafa;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px dashed #ccc;
+    letter-spacing: 1px;
+    margin-top: 10px;
+}
+
+.task {
+    margin-bottom: 1.5rem;
+}
+
+/* NEW: Horizontal row for inputs */
+.input-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px; /* Spacing between items */
+    margin-top: 1.5rem;
+}
+
+/* NEW: Container for label + box */
+.input-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.input-item label {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* Style for text boxes */
+input[type="number"] {
+    padding: 10px;
+    font-size: 1.1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+    width: 80px; /* Fixed width */
+    box-sizing: border-box; 
+    text-align: center;
+}
+
+/* Style for the binary 0/1 inputs */
+.v-button-bit {
+    font-family: monospace;
+    font-size: 1.2em;
+    text-align: center;
+    padding: 10px;
+    width: 80px; /* Match width */
+}
+
+.controls {
+    text-align: center;
+    margin-top: 2.5rem;
+}
+
+/* Center the submit buttons */
+#submitPart1Button, #submitPart2Button {
+    display: inline-block;
+    float: none;
+}
+
+
+/* Feedback styles for Observation panel */
+#observation p {
+    margin-bottom: 0.5rem;
+}
+#observation ul {
+    list-style: disc;
+    margin-left: 25px;
+}
+#observation h4 {
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+#observation hr {
+    border: 0;
+    border-top: 1px solid #e0e0e0;
+    margin: 10px 0;
+}
+
+.obs-correct h4 {
+    color: #155724;
+}
+.obs-correct {
+    color: #155724;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.obs-partial h4 {
+    color: #856404;
+}
+.obs-partial {
+    color: #856404;
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.obs-incorrect h4 {
+    color: #721c24;
+}
+.obs-incorrect {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    border-radius: 5px;
+}
