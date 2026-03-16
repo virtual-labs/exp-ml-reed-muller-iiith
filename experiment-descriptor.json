@@ -14,18 +14,18 @@
       "unit-type": "aim"
     },
     {
-      "target": "theory.html",
-      "source": "theory.md",
-      "label": "Theory",
-      "unit-type": "task",
-      "content-type": "text"
-    },
-    {
       "target": "pretest.html",
       "source": "pretest.json",
       "label": "Pretest",
       "unit-type": "task",
       "content-type": "assesment"
+    },
+    {
+      "target": "theory.html",
+      "source": "theory.md",
+      "label": "Theory",
+      "unit-type": "task",
+      "content-type": "text"
     },
     {
       "target": "procedure.html",
