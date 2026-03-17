@@ -80,7 +80,7 @@ The Hadamard Transform of a vector $\mathbf{Y}$ is the matrix-vector product $\m
 **Output:** The decoded message polynomial $\hat{f}(\mathbf{X})$.
 
 1.  **Transform:** Compute the Hadamard Transform of the received vector
-    $$ \mathbf{Z} = \mathbf{Y} H\_{2^m}. \tag{7}$$
+    $$ \mathbf{Z} = \mathbf{Y} H_{2^m}. \tag{7}$$
 2.  **Search:** Find the index $j$ corresponding to the component of $\mathbf{Z}$ with the largest absolute value over all $2^m$ possible indices
     $$ j = \arg\max\_{i \in \{0, \dots, 2^m-1\}} |Z_i| . \tag{8}$$
 3.  **Decode:** Let the binary representation of $j$ be $(b_1 b_2 \dots b_m)$.
